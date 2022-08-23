@@ -31,7 +31,7 @@ const MyStack = ()=> {
                 tabBarShowLabel: true,
                 tabBarStyle: {
                     backgroundColor: "#1c2733",
-
+           
                 },
                 tabBarIndicatorStyle: {
                     backgroundColor: "#C25B5B",
@@ -43,6 +43,7 @@ const MyStack = ()=> {
                 tabBarLabelStyle: {
                     color: "#fff",
                     fontSize: 10,
+                    fontFamily:"Poppins_400Regular"
                  
                 },
                 tabBarPressColor: "#f7f7f7"
@@ -58,9 +59,9 @@ const MyStack = ()=> {
                             alignItems: "center"
                         }}>
       <MaterialCommunityIcons
-                            name="wifi"
+                            name="hexagon-multiple"
        color={focused?"tomato": "#fff"}
-                            size={18}
+                            size={focused?20:18}
                             />
       </View>
                     ),
@@ -77,8 +78,8 @@ const MyStack = ()=> {
                             alignItems: "center"
                         }}>
       <MaterialCommunityIcons
-                            name="hexagon-multiple"
-                            size={18}
+                            name="book"
+                            size={focused?20:18}
                             color={focused?"tomato": "#fff"}
                             />
       </View>
@@ -87,18 +88,18 @@ const MyStack = ()=> {
 
                 }}
                 />
-              <Tab.Screen name="Bookmarks" component={Play}
+              <Tab.Screen name="Saved" component={Play}
                 options={ {
-
+                        
                     tabBarIcon: ({ focused })=>(
                         <View style={ {
                             justifyContent: "center",
                             alignItems: "center"
                         }}>
       <MaterialCommunityIcons
-                            name="book"
+                            name="star"
                             color={focused?"tomato": "#fff"}
-                            size={18}
+                            size={focused?20:18}
 
                             />
 
@@ -116,9 +117,9 @@ const MyStack = ()=> {
                             alignItems: "center"
                         }}>
       <MaterialCommunityIcons
-                            name="head-dots-horizontal"
+                       name="human" 
                         color={focused?"tomato": "#fff"}
-                            size={18}
+                            size={focused?20:18}
 
                             />
       </View>
