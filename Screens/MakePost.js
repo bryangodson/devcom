@@ -1,5 +1,6 @@
 import React, {
-  useState
+  useState,
+  useEffect
 } from "react";
 import {
   StyleSheet,
@@ -19,8 +20,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const MakePost = ({navigation}) => {
 
-
-  return (<View style={styles.container}>
+  return (
+  <View style={styles.container}>
   <StatusBar
       animated={true}
       translucent={true}

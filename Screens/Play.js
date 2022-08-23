@@ -21,9 +21,7 @@ const Play = ({navigation})=> {
       barStyle="light-content"
       backgroundColor="#1c2733"
       />
-    <View>
-        <Text></Text>
-        </View>
+ 
     </View>
     );
 }
@@ -35,5 +33,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    
 });
 export default Play;

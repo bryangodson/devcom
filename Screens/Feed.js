@@ -9,7 +9,6 @@ import {
   View,
   StatusBar,
   Pressable,
-  SafeAreaView,
   ImageBackground,
   Button,
   FlatList,
@@ -20,12 +19,24 @@ import {
   Animated,
   ActivityIndicator,
   NativeModules,
+ 
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {
+  Shadow
+} from 'react-native-shadow-2';
+
+
 import ActionButton from 'react-native-action-button';
+import LottieView from 'lottie-react-native';
+
 const { StatusBarManager} = NativeModules;
 const sheight = StatusBarManager.HEIGHT+5;
-
+import {
+    MotiView,
+    MotiText
+} from "moti"
 const dms = Dimensions.get("window");
 
 const Feed = ({
@@ -39,6 +50,9 @@ const Feed = ({
     setData] = useState([]);
   const [isrefreshed,
     setIsrefreshed] = useState(false);
+const [bookClicked, setBookClicked]=useState(false);
+const [iconColor,setIconColor]=useState("#fff");
+const [offset,setOffset]=useState(0);
 
   const getMovies = async () => {
     try {
@@ -72,35 +86,31 @@ const Feed = ({
     }
   }
 
-  const name="c</>deOffice";
+  const name="Haipe";
+  
+  /*const  scrollHandeler=(event) => {
+      
+      let currentOffset = event.nativeEvent.contentOffset.y;
+     // let direction = currentOffset > offset ? 'down' : 'up';
+      
+      alert(currentOffset); // up or down accordingly
+  }
+  */
+  
   return (
-    <SafeAreaView>
+<View style={styles.container}>
      <StatusBar
       animated={true}
       translucent={true}
       barStyle="light-content"
-      backgroundColor="#1c2733"
+      backgroundColor="rgba(0,0,0,0)"
       />
-    
-<View style={{
-  width:"100%",
-  height:"100%"
-}}>
-       <View style={styles.head}>
+
+       <View style={styles.head}
+
+       >
        <Text style={styles.whatIsNew}>{name}</Text>
        <View style={styles.twoRightBtn}>
- <MaterialCommunityIcons.Button
-        onPress={()=> {
-          navigation.navigate("MakePost")
-        }}
-        name="plus"
-        size={18}
-        color="#fff"
-        backgroundColor="rgba(0,0,0,0)"
-        underlayColor="rgba(255,255,255,0)"
-iconStyle={{marginRight: 0}}
-        />
-
  <MaterialCommunityIcons.Button
         onPress={()=> {
           navigation.navigate("Notifications")
@@ -124,15 +134,20 @@ iconStyle={{marginRight: 0}}
             refreshing={isrefreshed}
             onRefresh={onRefresh}
             colors={["#53b76f", "#C87000", "royalblue", "#FFB000", "#FF0044"]}
-            progressViewOffset={50}
-            title="Getting new  if any"
+            progressViewOffset={100}
+         
             />
 
           }
+          fadingEdgeLength={30}
+          initialNumToRender={30}
           contentContainerStyle={ {
-            paddingHorizontal: 15,
-            paddingVertical: 15,
+            paddingHorizontal: 5,
+            paddingVertical: 6,
           }}
+                columnWrapperStyle={{
+          justifyContent: "space-between"
+        }}
           ItemSeparatorComponent={()=>
         (
           <View
@@ -140,51 +155,113 @@ iconStyle={{marginRight: 0}}
               height: 1,
               width: "100%",
               backgroundColor: "#8D969A",
-              opacity: 0.3,
-              padding: 8,
-              borderRadius: 3,
-              marginVertical:15,
+              opacity: 0,
+              padding: 2,
+              borderRadius: 10,
+              marginVertical:20,
 
             }}
             />
         )
         }
-                columnWrapperStyle={{
+                
+       
+          decelerationRate="normal"
+         
+          showsVerticalScrollIndicator={true}
+                  columnWrapperStyle={{
           justifyContent: "space-between"
         }}
 
           numColumns={2}
-
-          decelerationRate="normal"
-          fadingEdgeLength={0}
-          showsVerticalScrollIndicator={false}
+           
           renderItem={({
             item
           }) => (
-          <Pressable onPress={
+
+          <View style={{
+          
+              justifyContent:'space-between',
+              alignItems:'flex-start'
+          }}
+          
+          >
+          
+          <View style={{
+              width:(dms.width / 2) - 10,
+              paddingVertical:8,
+              flexDirection:"row"
+              
+          }}>
+          
+       
+          <Image
+                   source={ {
+                uri: item.largeImageURL
+              }}
+              style={{
+                  height:50,
+                  width:50,
+                  borderRadius:25,
+           
+                  
+              }}
+                
+                />
+
+              
+                
+                   <View style={{
+                   flexShrink:1,
+              }}>
+            <Text style={styles.txtss}>{item.user}</Text>
+             <Text numberOfLines={1} style={styles.txts}>{item.tags}</Text>
+            
+            </View>
+
+          </View>
+          
+
+          <View style={{
+              width:(dms.width / 2) - 10,
+                marginBottom: 15,
+              height:300,
+              borderRadius:10
+
+          }}>     
+            <Pressable onPress={
             ()=>{
-            navigation.navigate("Player",{url:item.largeImageURL})
+            navigation.navigate("Player",{
+            url:item.largeImageURL
+                
+            })
             }
           }>
-            <ImageBackground
+        
+            <Image
 
               source={ {
                 uri: item.largeImageURL
               }}
               style={{
-                height: 310,
-                width:dms.width<700?(dms.width / 2)-20:(dms.width / 2)-40,
+                  height:300,
+     width:(dms.width / 2) - 10,
                 marginBottom: 15,
-
+                  borderRadius:10,
+         
+                  
+                  
               }}
-              imageStyle={ {
-                borderRadius: 15,
-              }}
+              />
 
-              >
-            <Text style={styles.txts}>{item.user}, {item.tags}</Text>
-            </ImageBackground>
-            </Pressable>
+           
+    </Pressable>
+              </View>
+              
+
+             
+              </View>
+
           )}
           />
       )}
@@ -202,42 +279,30 @@ iconStyle={{marginRight: 0}}
         hideShadow={true}
         degrees={90}
         >
-          <ActionButton.Item buttonColor="#FF4C70" title="New Project" onPress={() => alert("New project  tapped!")}
+          <ActionButton.Item buttonColor="#FF4C70" title="New Post" 
           textStyle={ {
             fontFamily: "Poppins_400Regular"
           }}
-
-          
-
-
+          onPress={()=>{
+              navigation.navigate("MakePost")
+          }}
           >
-            <MaterialCommunityIcons name="plus" color="#fff" size={20} />
+            <MaterialCommunityIcons name="pen-plus" color="#fff" size={20} />
           </ActionButton.Item>
-          <ActionButton.Item buttonColor='#FF8E00' title="Stars" onPress={() => {
-            navigation.navigate("Stars")
-          }} textStyle={ {
+          
+          <ActionButton.Item buttonColor='#FF6100' title="Chats"
+          textStyle={ {
             fontFamily: "Poppins_400Regular"
           }}
-          
-          >
-            <MaterialCommunityIcons name="star-outline" color="#fff" size={20} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#FF6100' title="Chats" onPress={() => {
-            navigation.navigate("Messages")
-          }} textStyle={ {
-            fontFamily: "Poppins_400Regular"
-          }}
-
-          
-
-
+        onPress={()=>{  
+        navigation.navigate("Chat")
+        }}
           >
             <MaterialCommunityIcons name="message-reply-text-outline" color="#fff" size={20} />
           </ActionButton.Item>
         </ActionButton>
+  
 </View>
-   </SafeAreaView>
-
 
   )
 
@@ -247,10 +312,13 @@ iconStyle={{marginRight: 0}}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+      width:"100%",
+  height:"100%",
+  backgroundColor:"#eee"
   },
   whatIsNew: {
     fontSize: 20,
-    color: "#f7f7f7",
+    color: "tomato",
     fontFamily: "Poppins_400Regular",
     fontWeight: "600",
 
@@ -261,6 +329,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#1c2733",
     padding: 10,
+    width:"100%",
     paddingTop:sheight,
     
   },
@@ -268,20 +337,28 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
-    backgroundColor: "rgba(255,255,200,0.1)",
-    borderRadius: 12,
+    backgroundColor:"#eee",
+    borderRadius:"50%",
     padding: 4,
-    width: 90,
+
 
   },
   txts: {
     color: "#000",
     fontSize: 12,
     fontFamily: "Poppins_400Regular",
-    padding:8,
+    paddingLeft:4,
+    opacity:0.5,
   },
-
-  
+  txtss: {
+    color: "#000",
+    fontSize: 15,
+    fontFamily: "Poppins_400Regular",
+    padding:4,
+    paddingBottom:2,
+    paddingTop:0,
+    fontWeight:"600"
+  },
 
 });
 export default Feed;
